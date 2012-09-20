@@ -10,7 +10,7 @@ module MetricFu
       MetricFu.saikuro[:input_directory].each do |input_dir|
         options_string += "--input_directory #{input_dir} "
       end
-      sh %{saikuro #{options_string}} do |ok, response|
+      system %{saikuro #{options_string}} do |ok, response|
         unless ok
           puts "Saikuro failed with exit status: #{response.exitstatus}"
           exit 1
