@@ -19,21 +19,22 @@ module MetricFu
     end
 
     def emit
-      unless MetricFu.rcov[:external]
-        FileUtils.rm_rf(MetricFu::Rcov.metric_directory, :verbose => false)
-        Dir.mkdir(MetricFu::Rcov.metric_directory)
-        test_files = FileList[*MetricFu.rcov[:test_files]].join(' ')
-        rcov_opts = MetricFu.rcov[:rcov_opts].join(' ')
-        output = ">> #{MetricFu::Rcov.metric_directory}/rcov.txt"
-        puts "** Running the specs/tests in the [#{MetricFu.rcov[:environment]}] environment"
-        `RAILS_ENV=#{MetricFu.rcov[:environment]} rcov #{test_files} #{rcov_opts} #{output}`
+      # Execute an rcov process if a command is given
+      # or if no command is given and no external path is supplied
+      if MetricFu.rcov[:command] || !MetricFu.rcov[:external]
+        if MetricFu.rcov[:append]
+          dirname = File.dirname(output_path)
+          FileUtils.rm_rf(dirname, :verbose => false)
+          Dir.mkdir(dirname)
+        end
+        puts "** Running the specs/tests"
+        `#{shell_command}`
       end
     end
 
 
     def analyze
-      output_file = MetricFu.rcov[:external] ? MetricFu.rcov[:external] : MetricFu::Rcov.metric_directory + '/rcov.txt'
-      output = File.open(output_file).read
+      output = File.open(output_path).read
       output = output.split(NEW_FILE_MARKER)
 
       output.shift # Throw away the first entry - it's the execution time etc.
@@ -116,6 +117,29 @@ module MetricFu
         percent_run = ((lines_run.to_f / total_lines.to_f) * 100).round
         files[fname][:percent_run] = percent_run
       end
+    end
+
+    def output_path
+      MetricFu.rcov[:external] || File.join(MetricFu::Rcov.metric_directory, "rcov.txt")
+    end
+
+    def shell_command
+      shell_cmd = ""
+
+      if MetricFu.rcov[:environment]
+        shell_cmd << "RAILS_ENV=#{MetricFu.rcov[:environment]} "
+      end
+
+      executable = MetricFu.rcov[:command] || 'rcov'
+      test_files = FileList[*MetricFu.rcov[:test_files]].join(' ')
+      rcov_opts = MetricFu.rcov[:rcov_opts].join(' ')
+      shell_cmd << "#{executable} #{test_files} #{rcov_opts}"
+
+      if MetricFu.rcov[:append]
+        shell_cmd << " << #{output_path}" 
+      end
+
+      shell_cmd
     end
 
   end

@@ -139,7 +139,9 @@ module MetricFu
                                    "--profile",
                                    "--rails",
                                    "--exclude /gems/,/Library/,/usr/,spec"],
-                    :external => nil
+                    :external => nil,
+                    :command  => nil,
+                    :append   => true
                   }
       @rails_best_practices = {}
       @hotspots = {}
