@@ -22,22 +22,22 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   {
-    "rails_best_practices"  => ["= #{MetricFu::MetricVersion.rails_best_practices}"],
+    "rails_best_practices"  => ["#{MetricFu::MetricVersion.rails_best_practices}"],
     "japgolly-Saikuro"      => ["#{MetricFu::MetricVersion.saikuro}"],
-    "metric_fu-roodi"       => [">= #{MetricFu::MetricVersion.roodi}"],
-    "flay"                  => ["= #{MetricFu::MetricVersion.flay}"],
-    "flog"                  => ["= #{MetricFu::MetricVersion.flog}"],
-    "reek"                  => ["= #{MetricFu::MetricVersion.reek}"],
-    "churn"                 => ["= #{MetricFu::MetricVersion.churn}"],
+    "metric_fu-roodi"       => ["#{MetricFu::MetricVersion.roodi}"],
+    "flay"                  => ["#{MetricFu::MetricVersion.flay}"],
+    "flog"                  => ["#{MetricFu::MetricVersion.flog}"],
+    "reek"                  => ["#{MetricFu::MetricVersion.reek}"],
+    "churn"                 => ["#{MetricFu::MetricVersion.churn}"],
       # specifying dependencies for flay, reek, churn, and flog
-      "ruby_parser"           => ["~> 3.0", ">= #{MetricFu::MetricVersion.ruby_parser}"],
+      "ruby_parser"           => ["#{MetricFu::MetricVersion.ruby_parser}"],
       "sexp_processor"        => ["#{MetricFu::MetricVersion.sexp_processor}"],
-      "ruby2ruby"             => ["= #{MetricFu::MetricVersion.ruby2ruby}"],
+      "ruby2ruby"             => ["#{MetricFu::MetricVersion.ruby2ruby}"],
     "activesupport"         => [">= 2.0.0"], # ok
     "coderay"               => [],
-    "fattr"                 => ["= 2.2.1"],
-    "arrayfields"           => ["= 4.7.4"],
-    "map"                   => ["= 6.2.0"],
+    "fattr"                 => ["~> 2.2.1"],
+    "arrayfields"           => ["~> 4.7.4"],
+    "map"                   => ["~> 6.2.0"],
     "bluff"                 => [],
     "googlecharts"          => []
   }.each do |gem, version|
